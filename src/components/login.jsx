@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import API from '../api';
 
 export default class login extends Component {
   constructor(props) {
@@ -18,12 +19,10 @@ export default class login extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    fetch('/user/login', {
-      method: 'POST',
-      body: JSON.stringify(this.state),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+
+    API.post(`user/login`, {
+      email: this.state.email,
+      password: this.state.password
     })
     .then(res => {
       if (res.status === 200) {

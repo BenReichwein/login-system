@@ -10,8 +10,21 @@ const user = (app) => {
         res.send('Welcome!');
     });
       
-    app.get('/user/profile', withAuth, function(req, res) {
-        res.send(`Here's your profile!`);
+    app.get('/user/profile', withAuth, async function(req, res) {
+        const token = 
+            req.body.token ||
+            req.query.token ||
+            req.headers['x-access-token'] ||
+            req.cookies.token;  
+        
+        const decoded = jwt.verify(token, appSecret);
+
+        return res.status(200).json({
+            user: {
+                id: decoded.id,
+                email: decoded.email
+            }
+        });
     });
       
     app.post('/user/register', function(req, res) {

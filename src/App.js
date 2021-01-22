@@ -11,12 +11,12 @@ function App() {
       <Router>
           <ul>
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/secret">Secret</Link></li>
+            <li><Link to="/profile">Profile</Link></li>
             <li><Link to="/login">Login</Link></li>
           </ul>
           <Switch>
             <Route path="/" exact component={home} />
-            <Route path="/secret" component={withAuth(profile)} />
+            <Route path="/profile" component={withAuth(profile)} />
             <Route path="/login" component={login} />
           </Switch>
       </Router>
