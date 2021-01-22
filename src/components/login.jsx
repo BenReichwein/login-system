@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import API from '../api';
 
 export default class login extends Component {
   constructor(props) {
@@ -20,9 +19,12 @@ export default class login extends Component {
   onSubmit = (event) => {
     event.preventDefault();
 
-    API.post(`user/login`, {
-      email: this.state.email,
-      password: this.state.password
+    fetch('/user/login', {
+      method: 'POST',
+      body: JSON.stringify(this.state),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
     .then(res => {
       if (res.status === 200) {
@@ -40,26 +42,28 @@ export default class login extends Component {
 
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
-        <h1>Login Below!</h1>
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter email"
-          value={this.state.email}
-          onChange={this.handleInputChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter password"
-          value={this.state.password}
-          onChange={this.handleInputChange}
-          required
-        />
-        <input type="submit" value="Submit"/>
-      </form>
+      <div>
+        <form onSubmit={this.onSubmit}>
+          <h1>Login Below!</h1>
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter email"
+            value={this.state.email}
+            onChange={this.handleInputChange}
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Enter password"
+            value={this.state.password}
+            onChange={this.handleInputChange}
+            required
+          />
+          <input type="submit" value="Submit"/>
+        </form>
+      </div>
     );
   }
 }

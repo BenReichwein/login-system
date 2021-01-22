@@ -19,12 +19,12 @@ const user = (app) => {
         
         const decoded = jwt.verify(token, appSecret);
 
-        return res.status(200).json({
-            user: {
-                id: decoded.id,
-                email: decoded.email
-            }
-        });
+        User.findById(decoded.id, function(err, user) {
+            return res.status(200).json({
+                email: user.email,
+                password: user.password
+            });
+        })
     });
       
     app.post('/user/register', function(req, res) {
@@ -68,15 +68,22 @@ const user = (app) => {
                 });
                 } else {
                 // Issue token
-                const payload = { email };
+                const payload = {
+                    id: user._id,
+                    email,
+                };
                 const token = jwt.sign(payload, secret, {
-                    expiresIn: '1h'
+                    expiresIn: '7d'
                 });
                 res.cookie('token', token, { httpOnly: true }).sendStatus(200);
                 }
             });
             }
         });
+    });
+
+    app.get('/user/logout', function(req, res) {
+        res.cookie('token', "", { httpOnly: true }).sendStatus(200);
     });
       
     app.get('/checkToken', withAuth, function(req, res) {
