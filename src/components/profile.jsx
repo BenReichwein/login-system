@@ -9,7 +9,7 @@ export default class profile extends Component {
   }
 
   componentDidMount() {
-    fetch('/api/profile')
+    fetch('/user/profile')
       .then(res => res.text())
       .then(res => this.setState({message: res}));
   }

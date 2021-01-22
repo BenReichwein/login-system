@@ -9,7 +9,7 @@ export default class home extends Component {
   }
   
   componentDidMount() {
-    fetch('/api/home')
+    fetch('/home')
       .then(res => res.text())
       .then(res => this.setState({message: res}));
   }
