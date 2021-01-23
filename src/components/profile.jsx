@@ -4,14 +4,39 @@ export default class profile extends Component {
   constructor() {
     super();
     this.state = {
-      message: 'Loading...'
+      email : '',
+      password: ''
     }
   }
 
   componentDidMount() {
     fetch('/user/profile')
       .then(res => res.json())
-      .then(res => this.setState({message: res}));
+      .then(res => this.setState({
+        email: res.email,
+        password: res.password
+      }));
+  }
+
+  handleInputChange = (event) => {
+    const { value, name } = event.target;
+    this.setState({
+      [name]: value
+    });
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+
+    fetch('/user/update', {
+      method: 'PATCH',
+      body: JSON.stringify(this.state),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => res.text())
+    .then(res => alert(res))
   }
 
   logout = () => {
@@ -31,8 +56,23 @@ export default class profile extends Component {
     return (
       <div>
         <h1>Profile</h1>
-        <p>{this.state.message.email}</p>
-        <p>{this.state.message.password}</p>
+        <form onSubmit={this.onSubmit}>
+          <input
+            type="email"
+            name="email"
+            value={this.state.email}
+            onChange={this.handleInputChange}
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            value={this.state.password}
+            onChange={this.handleInputChange}
+            required
+          />
+          <button type="submit" value="Submit">Update</button>
+        </form>
         <button onClick={this.logout}>Logout</button>
       </div>
     );

@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const withAuth = require('./middleware');
 const User = require('../models/User')
 const { appSecret } = require('../../keys');
@@ -81,6 +82,26 @@ const user = (app) => {
             }
         });
     });
+
+    app.patch('/user/update', withAuth, async (req, res) => {
+        const { email, password } = req.body;
+        const token = 
+            req.body.token ||
+            req.query.token ||
+            req.headers['x-access-token'] ||
+            req.cookies.token;  
+        
+        const decoded = jwt.verify(token, appSecret);
+
+        const updateQuery = {};
+
+        if (email) updateQuery.email = email;
+        if (password) updateQuery.password = await bcrypt.hash(password, 10);
+
+        const user = await User.findByIdAndUpdate(decoded.id, updateQuery);
+
+        return res.status(200).send("Updated!");
+    })
 
     app.get('/user/logout', function(req, res) {
         res.cookie('token', "", { httpOnly: true }).sendStatus(200);
