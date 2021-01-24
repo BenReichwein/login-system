@@ -4,7 +4,7 @@ export default class home extends Component {
   constructor() {
     super();
     this.state = {
-      message: 'Loading...'
+      message: 'Loading...',
     }
   }
   

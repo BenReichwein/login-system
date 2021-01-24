@@ -1,4 +1,5 @@
 const user = require('./user');
+const post = require('./post')
 
 const appRouter = (app, fs) => {
     app.get('/', (req, res) => {
@@ -7,6 +8,7 @@ const appRouter = (app, fs) => {
     })
     // Routes
     user(app);
+    post(app);
 }
 
 module.exports = appRouter;
