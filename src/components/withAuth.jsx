@@ -13,19 +13,19 @@ export default function withAuth(ComponentToProtect) {
 
     componentDidMount() {
       fetch('/checkToken')
-        .then(res => {
-          if (res.status === 200) {
-            this.setState({ loading: false });
-          } else {
-            console.log(res.error)
-            const error = new Error(res.error);
-            throw error;
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          this.setState({ loading: false, redirect: true });
-        });
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({ loading: false });
+        } else {
+          console.log(res.error)
+          const error = new Error(res.error);
+          throw error;
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        this.setState({ loading: false, redirect: true });
+      });
     }
 
 
