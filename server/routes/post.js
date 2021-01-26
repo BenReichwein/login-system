@@ -28,7 +28,7 @@ const posts = (app) => {
             user: decoded.id,
         });
         try {
-            const savedPost = await post.save();
+            await post.save();
             const posts = await Post.find();
             res.json(posts)
         } catch (err) {
@@ -39,7 +39,7 @@ const posts = (app) => {
     app.get('/posts/:postId', async (req, res) => {
         try {
             const post = await Post.findById(req.params.postId)
-            res.status(200)
+            res.status(200).json(post)
         } catch (err) {
             res.json({message:`Error: ${err}`})
         }
@@ -47,7 +47,7 @@ const posts = (app) => {
     // Delete post
     app.delete('/posts/:postId', async (req, res) => {
         try {
-            const removedPost = await Post.deleteOne({_id: req.params.postId});
+            await Post.deleteOne({_id: req.params.postId});
             const posts = await Post.find();
             res.json(posts)
         } catch (err) {
