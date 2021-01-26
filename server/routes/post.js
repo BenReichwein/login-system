@@ -9,7 +9,7 @@ const posts = (app) => {
             const posts = await Post.find();
             res.json(posts)
         } catch (err) {
-            res.json({message:`Error: ${err}`})
+            res.send(`Error ${err}`)
         }
     });
     // Submits a post - Needs to be req.json to submit
@@ -32,7 +32,7 @@ const posts = (app) => {
             const posts = await Post.find();
             res.json(posts)
         } catch (err) {
-            res.json({message:`Error: ${err}`})
+            res.send(`Error ${err}`)
         }
     });
     // Specific post
@@ -41,7 +41,7 @@ const posts = (app) => {
             const post = await Post.findById(req.params.postId)
             res.status(200).json(post)
         } catch (err) {
-            res.json({message:`Error: ${err}`})
+            res.send(`Error ${err}`)
         }
     })
     // Delete post
@@ -51,7 +51,7 @@ const posts = (app) => {
             const posts = await Post.find();
             res.json(posts)
         } catch (err) {
-            res.json({message:`Error: ${err}`})
+            res.send(`Error ${err}`)
         }
     })
     // Update post
@@ -63,7 +63,7 @@ const posts = (app) => {
             );
             res.json(updatedPost);
         } catch (err) {
-            res.json({message:`Error: ${err}`})
+            res.send(`Error ${err}`)
         }
     })
 };

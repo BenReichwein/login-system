@@ -5,7 +5,8 @@ export default class login extends Component {
     super(props)
     this.state = {
       email : '',
-      password: ''
+      password: '',
+      system: false,
     };
   }
 
@@ -19,16 +20,21 @@ export default class login extends Component {
   onSubmit = (event) => {
     event.preventDefault();
 
-    fetch('/user/login', {
+    fetch(`/user/${this.state.system ? 'register' : 'login'}`, {
       method: 'POST',
-      body: JSON.stringify(this.state),
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password
+      }),
       headers: {
         'Content-Type': 'application/json'
       }
     })
     .then(res => {
       if (res.status === 200) {
-        this.props.history.push('/');
+        this.state.system ?
+        alert('Registered! Put that information in again to login!'):
+        this.props.history.push('/')
       } else {
         const error = new Error(res.error);
         throw error;
@@ -36,15 +42,20 @@ export default class login extends Component {
     })
     .catch(err => {
       console.error(err);
-      alert('Error logging in please try again');
+      alert('Error logging in, please try again');
     });
+  }
+
+  changeSystem = () => {
+    this.setState({system: !this.state.system})
   }
 
   render() {
     return (
       <div>
         <form onSubmit={this.onSubmit}>
-          <h1>Login Below!</h1>
+          <h1>{this.state.system ? 'Sign up':'Log in'} Below!</h1>
+          <button onClick={this.changeSystem}>{this.state.system ? 'Log in':'Sign up'}</button>
           <input
             type="email"
             name="email"
