@@ -27,15 +27,8 @@ export default class post extends Component {
         fetch(`/posts/${id}`, {
         method: 'DELETE'
         })
-        .then(res => {
-        if (res.status === 200) {
-            alert('Post Deleted!')
-            window.location.reload()
-        } else {
-            const error = new Error(res.error);
-            throw error;
-        }
-        })
+        .then(res => res.json())
+        .then(res => this.setState({posts: res}))
         .catch(err => {
             console.error(err);
             alert('Error! try again later');
@@ -55,15 +48,12 @@ export default class post extends Component {
             'Content-Type': 'application/json'
         }
         })
-        .then(res => {
-        if (res.status === 200) {
-            alert('Posted!')
-            window.location.reload()
-        } else {
-            const error = new Error(res.error);
-            throw error;
-        }
-        })
+        .then(res => res.json())
+        .then(res => this.setState({
+          posts: res,
+          title: '',
+          description: ''
+        }))
         .catch(err => {
         console.error(err);
         alert('Error! you must be logged in');
@@ -78,8 +68,8 @@ export default class post extends Component {
             { this.state.posts.map(post =>
             <li>
                 <label>
-                    {post.title}
-                    {post.description}
+                    {post.title}<br/>
+                    {post.description}<br/>
                 </label>
                 <button onClick={()=> this.deletePost(post._id)}>Delete</button>
                 <button onClick={()=> alert(post.user)}>User</button>

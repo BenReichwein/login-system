@@ -29,7 +29,8 @@ const posts = (app) => {
         });
         try {
             const savedPost = await post.save();
-            res.status(200).json(savedPost);
+            const posts = await Post.find();
+            res.json(posts)
         } catch (err) {
             res.json({message:`Error: ${err}`})
         }
@@ -46,8 +47,9 @@ const posts = (app) => {
     // Delete post
     app.delete('/posts/:postId', async (req, res) => {
         try {
-            const removedPost = await Post.remove({_id: req.params.postId});
-            res.status(200).json(removedPost)
+            const removedPost = await Post.deleteOne({_id: req.params.postId});
+            const posts = await Post.find();
+            res.json(posts)
         } catch (err) {
             res.json({message:`Error: ${err}`})
         }
