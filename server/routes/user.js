@@ -98,7 +98,7 @@ const user = (app) => {
         if (email) updateQuery.email = email;
         if (password) updateQuery.password = await bcrypt.hash(password, 10);
 
-        const user = await User.findByIdAndUpdate(decoded.id, updateQuery);
+        await User.findByIdAndUpdate(decoded.id, updateQuery);
 
         return res.status(200).send("Updated!");
     })
