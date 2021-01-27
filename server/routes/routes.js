@@ -1,6 +1,5 @@
 const user = require('./user');
 const post = require('./post')
-const image = require('./image')
 
 const appRouter = (app, fs) => {
     app.get('/', (req, res) => {
@@ -10,7 +9,6 @@ const appRouter = (app, fs) => {
     // Routes
     user(app);
     post(app);
-    image(app);
 }
 
 module.exports = appRouter;
