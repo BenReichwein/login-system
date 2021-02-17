@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { database } = require('../../keys');
+const { database } = require('./keys');
 
 const db = async () => {
     try {

@@ -1,7 +1,7 @@
 const Post = require('../models/Post')
 const jwt = require('jsonwebtoken');
 const withAuth = require('./middleware');
-const { appSecret } = require('../../keys');
+const { appSecret } = require('../config/keys');
 
 const posts = (app) => {
     app.get('/posts', async (req, res) => {
